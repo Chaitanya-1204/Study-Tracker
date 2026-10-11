@@ -5,4 +5,6 @@ export default defineConfig({
   // relative paths so the build works under https://<user>.github.io/<repo>/
   base: './',
   plugins: [react()],
+  // GitHub Pages serves the main branch's /docs folder
+  build: { outDir: 'docs' },
 })
