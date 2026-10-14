@@ -42,8 +42,13 @@ Three fixed levels: **topic → subtopic → item**. Items are the only thing wi
 state; every percentage is derived by counting items, never stored. Ids are `crypto.randomUUID()`.
 
 On first load (or if the stored JSON is missing/corrupt), [storage.js](src/storage.js) falls
-back to [seedData.js](src/seedData.js), which ships sample DSA and Machine Learning topics.
-Bumping the shape means bumping `STORAGE_KEY` or writing a migration — there is none today.
+back to [seedData.js](src/seedData.js), which ships starter DSA, Machine Learning and C++ topics.
+
+Saved data wins on every later load, so **a topic added to `seedData.js` would never reach an
+existing browser**. `addNewSeedTopics` in `storage.js` handles that: on load it appends any seed
+topic whose title isn't in the stored `seeded` array, then records it there, so new seed topics
+arrive once and a topic the user deletes stays deleted. Adding to the seed is therefore enough;
+changing the shape of the data is not — that needs a real migration or a new `STORAGE_KEY`.
 
 ## Architecture
 
